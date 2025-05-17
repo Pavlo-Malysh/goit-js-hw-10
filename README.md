@@ -5,7 +5,9 @@
 
 ## 1. Таймер зворотного відліку
 
-Використано бібліотеку [flatpickr](https://flatpickr.js.org/getting-started/)
+Використано бібліотеку
+[flatpickr](https://flatpickr.js.org/getting-started/)
+[iziToast](https://marcelodolza.github.io/iziToast/)
 
 
 ## 2. Генератор промісів

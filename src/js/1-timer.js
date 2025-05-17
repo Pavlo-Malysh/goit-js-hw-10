@@ -2,9 +2,17 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import "flatpickr/dist/themes/material_green.css";
 
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
-// const dataElem = document.querySelector("#datetime-picker")
-// const startBtnElem = document.querySelector("[data-start]")
+import 'material-icons/iconfont/material-icons.css';
+
+const dataInput = document.querySelector("#datetime-picker")
+const startBtn = document.querySelector(".btn-start")
+const daysElem = document.querySelector("span[data-days]")
+const hoursElem = document.querySelector("span[data-hours]")
+const minutesElem = document.querySelector("span[data-minutes]")
+const secondsElem = document.querySelector("span[data-seconds]")
 
 let userSelectedDate;
 
@@ -14,6 +22,83 @@ const fp = flatpickr("#datetime-picker", {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
+    userSelectedDate = selectedDates[0]
+
+    if (Date.now() < userSelectedDate.getTime()) {
+      startBtn.disabled = false;
+    } else {
+      startBtn.disabled = true;
+      iziToast.show({
+        message: 'Please choose a date in the future',
+        position: 'topRight',
+        progressBar: false,
+        messageColor: 'white',
+        backgroundColor: 'rgb(231, 76, 76)',
+        iconText: 'error_outline',
+        icon: 'material-icons',
+        iconColor: 'white',
+
+      })
+    }
   },
 })
+
+let IntervalId;
+
+startBtn.addEventListener("click", (e) => {
+
+  IntervalId = setInterval(() => {
+    const initDate = Date.now()
+    const diffMs = userSelectedDate - initDate
+
+    if (diffMs > 0) {
+      addLeadingZero(diffMs)
+    } else {
+      clearInterval(IntervalId)
+      dataInput.disabled = false;
+    }
+
+
+  }, 1000)
+
+  startBtn.disabled = true;
+  dataInput.disabled = true;
+})
+
+//
+
+
+function convertMs(ms) {
+  // Number of milliseconds per unit of time
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+
+  // Remaining days
+  const days = Math.floor(ms / day);
+  // Remaining hours
+  const hours = Math.floor((ms % day) / hour);
+  // Remaining minutes
+  const minutes = Math.floor(((ms % day) % hour) / minute);
+  // Remaining seconds
+  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+
+  return { days, hours, minutes, seconds };
+}
+
+
+function addLeadingZero(value) {
+  const { days, hours, minutes, seconds } = convertMs(value)
+
+  let d = days.toString().padStart(2, "0")
+  let h = hours.toString().padStart(2, "0")
+  let m = minutes.toString().padStart(2, "0")
+  let s = seconds.toString().padStart(2, "0")
+
+  daysElem.textContent = d
+  hoursElem.textContent = h
+  minutesElem.textContent = m
+  secondsElem.textContent = s
+
+}
