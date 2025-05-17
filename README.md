@@ -5,9 +5,18 @@
 
 ## 1. Таймер зворотного відліку
 
-Використано бібліотеку
-[flatpickr](https://flatpickr.js.org/getting-started/)
-[iziToast](https://marcelodolza.github.io/iziToast/)
+Використовуй бібліотеку [flatpickr](https://flatpickr.js.org/getting-started/) для того, щоб дозволити користувачеві кросбраузерно вибрати кінцеву дату і час в одному елементі інтерфейсу. Для того щоб підключити CSS код бібліотеки в проєкт, необхідно додати ще один імпорт, крім того, що описаний в документації.
+// Описаний в документації
+``import flatpickr from "flatpickr";``
+// Додатковий імпорт стилів
+``import "flatpickr/dist/flatpickr.min.css";``
+
+Для відображення повідомлень користувачеві, замість window.alert(), використовуй бібліотеку [iziToast](https://marcelodolza.github.io/iziToast/). Для того щоб підключити CSS код бібліотеки в проєкт, необхідно додати ще один імпорт, крім того, що описаний у документації.
+
+// Описаний у документації
+``"import iziToast from "izitoast";``
+// Додатковий імпорт стилів
+``import "izitoast/dist/css/iziToast.min.css";``
 
 
 ## 2. Генератор промісів
