@@ -52,7 +52,13 @@ startBtn.addEventListener("click", (e) => {
     const diffMs = userSelectedDate - initDate
 
     if (diffMs > 0) {
-      addLeadingZero(diffMs)
+      const timeToStr = addLeadingZero(diffMs)
+
+      daysElem.textContent = timeToStr.dayStr;
+      hoursElem.textContent = timeToStr.hourStr;
+      minutesElem.textContent = timeToStr.minStr;
+      secondsElem.textContent = timeToStr.secStr;
+
     } else {
       clearInterval(IntervalId)
       dataInput.disabled = false;
@@ -88,17 +94,15 @@ function convertMs(ms) {
 }
 
 
-function addLeadingZero(value) {
-  const { days, hours, minutes, seconds } = convertMs(value)
+function addLeadingZero(objTime) {
+  const { days, hours, minutes, seconds } = convertMs(objTime)
 
-  let d = days.toString().padStart(2, "0")
-  let h = hours.toString().padStart(2, "0")
-  let m = minutes.toString().padStart(2, "0")
-  let s = seconds.toString().padStart(2, "0")
 
-  daysElem.textContent = d
-  hoursElem.textContent = h
-  minutesElem.textContent = m
-  secondsElem.textContent = s
+  let dayStr = days.toString().padStart(2, "0")
+  let hourStr = hours.toString().padStart(2, "0")
+  let minStr = minutes.toString().padStart(2, "0")
+  let secStr = seconds.toString().padStart(2, "0")
+
+  return { dayStr, hourStr, minStr, secStr }
 
 }

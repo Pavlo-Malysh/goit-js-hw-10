@@ -7,16 +7,16 @@ const form = document.querySelector(".form")
 form.addEventListener("submit", (e) => {
   e.preventDefault()
 
-  const delay = e.target.elements.delay.value
+  const delay = Number(e.target.elements.delay.value)
 
   let radioBtnValue = e.target.elements.state.value
 
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
       if (radioBtnValue.includes('fulfilled')) {
-        resolve()
+        resolve(delay)
       } else {
-        reject()
+        reject(delay)
       }
     }, delay)
   })
